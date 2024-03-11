@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+input[type='text'] {
+  @apply px-4 py-2 rounded border-slate-400 dark:border-slate-600 dark:bg-slate-800 border-solid border shadow-inner
+  outline-none;
+}
