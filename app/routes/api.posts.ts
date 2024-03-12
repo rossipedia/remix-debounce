@@ -1,4 +1,5 @@
 import { LoaderFunctionArgs, json } from '@remix-run/node';
+import { ClientLoaderFunctionArgs } from '@remix-run/react';
 import { z } from 'zod';
 import { delay } from '~/utils';
 
@@ -17,6 +18,7 @@ const PostsResponseSchema = z.object({
 export type PostsResponse = z.infer<typeof PostsResponseSchema>;
 
 export async function loader({ request }: LoaderFunctionArgs) {
+
   const { searchParams } = new URL(request.url);
 
   const q = searchParams.get('q');
@@ -37,4 +39,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
     .then((raw) => PostsResponseSchema.parse(raw));
 
   return json(results.posts as Post[]);
+}
+
+export async function clientLoader({ request, serverLoader }: ClientLoaderFunctionArgs) {
+  await delay(500, request.signal);
+  return await serverLoader();
 }
